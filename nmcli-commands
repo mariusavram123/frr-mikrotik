@@ -1,0 +1,18 @@
+- Add a ethernet interface with static IP configured
+
+nmcli connection add type ethernet ifname <interface-name> con-name <connection-name> ipv4.method manual ipv4.address <IP>/<prefix> ipv4.gateway <GW-address>
+
+Example:
+
+nmcli connection add type ethernet ifname enp7s0 con-name enp7s0 ipv4.method manual ipv4.address 10.85.0.1/28
+
+
+Rise the interface up:
+
+nmcli connection up <connection-name>
+
+Example:
+
+nmcli connection up enp7s0
+
+

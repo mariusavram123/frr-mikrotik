@@ -1,0 +1,62 @@
+[admin@MikroTik] > export 
+# 2025-02-12 12:10:23 by RouterOS 7.17.2
+# system id = jK1k68nTxEF
+#
+/interface ethernet
+set [ find default-name=ether1 ] disable-running-check=no name=ether2
+set [ find default-name=ether2 ] disable-running-check=no name=ether3
+set [ find default-name=ether3 ] disable-running-check=no name=ether4
+/ip pool
+add name=dhcp_pool2 ranges=10.90.0.50-10.90.0.254
+add name=dhcp_pool3 ranges=10.90.20.50-10.90.20.254
+/port
+set 0 name=serial0
+/routing bgp template
+set default as=65524
+/routing ospf instance
+add disabled=no name=instance1
+/routing ospf area
+add disabled=no instance=instance1 name=ospf-routing
+/interface vlan
+add interface=*2 name=vlan10 vlan-id=10
+add interface=*2 name=vlan20 vlan-id=20
+/interface ovpn-server server
+add mac-address=FE:71:58:E7:C1:36 name=ovpn-server1
+/ip address
+add address=10.90.0.1/24 interface=vlan10 network=10.90.0.0
+add address=10.90.20.1/24 interface=vlan20 network=10.90.20.0
+add address=10.85.2.2/28 interface=ether3 network=10.85.2.0
+add address=10.85.3.1/28 interface=ether4 network=10.85.3.0
+/ip dhcp-client
+# Interface not active
+add interface=*2
+add interface=ether2
+/ip dhcp-server
+add address-pool=dhcp_pool2 interface=vlan10 lease-time=1d name=dhcp3 relay=10.90.0.1
+add address-pool=dhcp_pool3 interface=vlan20 lease-time=1d name=dhcp4 relay=10.90.20.1
+/ip dhcp-server network
+add address=10.90.0.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=10.90.0.1
+add address=10.90.20.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=10.90.20.1
+/ip firewall address-list
+add address=103.136.43.0/24 list=block-ru
+add address=100.43.72.0/24 list=block-ru
+add address=100.43.78.0/24 list=block-ru
+add address=102.222.77.0/24 list=block-ru
+add address=102.222.79.0/24 list=block-ru
+add address=102.38.248.0/21 list=block-ru
+add address=103.113.68.0/24 list=block-ru
+add address=103.127.76.0/23 list=block-ru
+/ip firewall filter
+add action=drop chain=input disabled=yes src-address=8.8.8.8
+add action=drop chain=input disabled=yes log=yes log-prefix="block 8.8.4.4" src-address=8.8.4.4
+add action=drop chain=input src-address-list=block-ru
+/routing bgp connection
+add as=65524 local.role=ebgp name=a3 remote.address=10.85.2.1 .as=65523
+add as=65524 local.role=ebgp name=a4 remote.address=10.85.3.2 .as=65525
+/routing ospf interface-template
+add area=ospf-routing disabled=no networks=10.90.0.0/24,10.90.20.0/24
+/system note
+set show-at-login=no
+/user group
+add name=marius
+

@@ -1,0 +1,25 @@
+alma9-4# show running-config 
+Building configuration...
+
+Current configuration:
+!
+frr version 8.5.3
+frr defaults traditional
+hostname alma9-4
+no ipv6 forwarding
+!
+router bgp 65525
+ no bgp ebgp-requires-policy
+ no bgp network import-check
+ neighbor 10.85.3.1 remote-as 65524
+ neighbor 10.85.3.1 interface enp7s0
+ neighbor 10.85.4.2 remote-as 65526
+ neighbor 10.85.4.2 interface enp8s0
+ !
+ address-family ipv4 unicast
+  network 10.85.3.0/28
+  network 10.85.4.0/28
+ exit-address-family
+exit
+!
+end

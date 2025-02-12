@@ -1,0 +1,30 @@
+[root@alma9-1 ~]# vtysh 
+
+Hello, this is FRRouting (version 8.5.3).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+alma9-1# show running-config 
+Building configuration...
+
+Current configuration:
+!
+frr version 8.5.3
+frr defaults traditional
+hostname alma9-1
+no ipv6 forwarding
+!
+router bgp 65521
+ no bgp ebgp-requires-policy
+ no bgp network import-check
+ neighbor 10.85.0.2 remote-as 65522
+ neighbor 10.85.0.2 interface enp7s0
+ neighbor 10.85.5.2 remote-as 65526
+ neighbor 10.85.5.2 interface enp8s0
+ !
+ address-family ipv4 unicast
+  network 10.85.0.0/28
+  network 10.85.5.0/28
+ exit-address-family
+exit
+!
+end
