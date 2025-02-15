@@ -1,0 +1,18 @@
+/ip/firewall/address-list
+
+add address=www.microsoft.com list=MStelemetry
+
+add address=microsoft.com list=MStelemetry
+add address=telemetry.microsoft.com list=MStelemetry
+add address=wns.notify.windows.com.akadns.net list=MStelemetry
+add address=v10-win.vortex.data.microsoft.com.akadns.net list=MStelemetry
+add address=us.vortex-win.data.microsoft.com list=MStelemetry
+add address=us-v10.events.data.microsoft.com list=MStelemetry
+add address=urs.microsoft.com.nsatc.net list=MStelemetry
+add address=watson.telemetry.microsoft.com list=MStelemetry
+add address=watson.ppe.telemetry.microsoft.com list=MStelemetry
+add address=vsgallery.com list=MStelemetry
+add address=watson.live.com list=MStelemetry
+add address=watson.microsoft.com list=MStelemetry
+add address=telemetry.remoteapp.windowsazure.com list=MStelemetry
+add address=telemetry.urs.microsoft.com list=MStelemetry
