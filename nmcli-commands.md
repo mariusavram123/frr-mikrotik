@@ -53,4 +53,20 @@ save
 quit
 ```
 
+- Adding a bridge interface and add a slave interface under it:
+
+```
+nmcli connection add ifname bridge0 type bridge con-name bridge0
+
+nmcli connection add type ethernet slave-type bridge con-name bridge0-port1 ifname enp8s0 master bridge0
+
+nmcli connection up bridge0-port1
+
+mmcli connection up bridge0
+
+nmcli connection modify bridge0 ipv4.method manual ipv4.addresses 10.185.111.112/24
+
+nmcli connection modify bridge0 bridge.stp no
+```
+
 
