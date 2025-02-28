@@ -109,5 +109,39 @@ nmcli connection modify bridge0 +ipv4.routes "192.168.121.0/24 10.74.7.3, 192.16
 nmcli connection modify bridge0 +ipv4.routes "192.168.182.0/24 10.185.111.111 src=10.185.111.112"
 ```
 
+- Add a dummy interface and configure routes and policy based routing (from addresses):
+
+```
+nmcli connection add type dummy ifname dummy0 con-name dummy0 ipv4.method manual ipv4.addresses 198.51.100.201/25 ipv4.routes "198.41.100.0/25 198.51.100.200 table=140" ipv4.routing-rules "priority 140 from 198.51.100.201 table 140"
+
+nmcli connection up dummy0
+```
+
+- Add a vrf interface and enslave it to table 150, then add a dummy interface, add routes for the respective interface:
+
+```
+nmcli connection add type vrf ifname vrf1 con-name vrf1 table 155 ipv4.method disabled ipv6.method disabled 
+
+nmcli connection add type dummy ifname dummy1 con-name dummy1 master vrf1 ipv4.method manual ipv4.addresses 192.0.2.1/24 ipv4.gateway 10.85.0.1
+
+nmcli connection up vrf1
+
+nmcli connection up dummy1
+
+```
+
+- Verify ip routes on the vrf interface:
+
+```
+ip route sh ta 155
+```
+
+```
+default via 10.85.0.1 dev dummy1 proto static metric 551 
+10.85.0.1 dev dummy1 proto static scope link metric 551 
+192.0.2.0/24 dev dummy1 proto kernel scope link src 192.0.2.1 metric 551 
+local 192.0.2.1 dev dummy1 proto kernel scope host src 192.0.2.1 
+broadcast 192.0.2.255 dev dummy1 proto kernel scope link src 192.0.2.1 
+```
 
 
