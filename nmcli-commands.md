@@ -103,6 +103,11 @@ nmcli connection modify bridge0 +ipv4.routes "192.168.121.0/24 10.74.7.3"
 - Multiple routes:
 
 nmcli connection modify bridge0 +ipv4.routes "192.168.121.0/24 10.74.7.3, 192.168.123.9/24 10.74.34.11"
+
+- Route with source address:
+
+nmcli connection modify bridge0 +ipv4.routes "192.168.182.0/24 10.185.111.111 src=10.185.111.112"
 ```
+
 
 
