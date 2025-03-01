@@ -197,3 +197,48 @@ ip link show master vxlan-bridge2
 ```
 
 For other documentation see: https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_managing_networking/assembly_using-a-vxlan-to-create-a-virtual-layer-2-domain-for-vms_configuring-and-managing-networking#proc_configuring-the-ethernet-interface-on-the-hosts_assembly_using-a-vxlan-to-create-a-virtual-layer-2-domain-for-vms
+
+
+- Add an IPv6 address to a interface with nmcli:
+
+```
+nmcli connection add type dummy ifname dummy6 con-name dummy6 ipv4.method disabled ipv6.method manual ipv6.addresses fe80:1234:1234:1122:1234:1234:1234::/64
+
+nmcli connection up dummy6
+```
+
+- Add an IPv6 route, ipv6 routing rule and an ipv6 gateway to the existing connection:
+
+
+```
+ nmcli connection modify dummy6 ipv6.gateway fe80:1234:1234:1122::1 ipv6.routes "fe80:1234:1133:1234::/64 fe80:1234:1234:1122::3 table=160" ipv6.routing-rules "priority 160 from fe80:1234:1234:1122:1234:1234:1234::/64 table 160"
+```
+
+Verifying ipv6 routes:
+
+```
+ip -6 ro sh table 160
+fe80:1234:1133:1234::/64 via fe80:1234:1234:1122::3 dev dummy6 proto static metric 552 pref medium
+
+
+ip -6 rule
+0:      from all lookup local
+160:    from fe80:1234:1234:1122:1234:1234:1234:0/64 lookup 160 proto static
+1000:   from all lookup [l3mdev-table]
+32766:  from all lookup main
+
+ip -6 route 
+::1 dev lo proto kernel metric 256 pref medium
+fe80::/64 dev enp10s0 proto kernel metric 1024 pref medium
+fe80::/64 dev enp1s0 proto kernel metric 1024 pref medium
+fe80::/64 dev enp7s0 proto kernel metric 1024 pref medium
+fe80::/64 dev enp7s0.50 proto kernel metric 1024 pref medium
+fe80::/64 dev bridge0 proto kernel metric 1024 pref medium
+fe80::/64 dev bond0 proto kernel metric 1024 pref medium
+fe80::/64 dev dummy6 proto kernel metric 1024 pref medium
+fe80:1234:1234:1122::/64 dev dummy6 proto kernel metric 552 pref medium
+default via fe80:1234:1234:1122::1 dev dummy6 proto static metric 552 pref medium
+
+```
+As you can see the default route got added in the main routing table.
+
