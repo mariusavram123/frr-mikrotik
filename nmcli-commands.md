@@ -144,4 +144,56 @@ local 192.0.2.1 dev dummy1 proto kernel scope host src 192.0.2.1
 broadcast 192.0.2.255 dev dummy1 proto kernel scope link src 192.0.2.1 
 ```
 
+- Create a vxlan interface using nmcli:
 
+Steps:
+
+1. Create a ethernet interface with IP settings
+
+2. Create a bridge over that ethernet interface
+
+3. Create a VXLAN interface and bring it to the bridge
+
+By default NetworkManager uses udp port 8472 for the connection, so I changed it
+
+When a VM connects to this interface `libvirtd` automatically creates a vnetX interface for the VM with type TAP (tunnel access point).
+
+```
+nmcli connection add type ethernet ifname enp10s0 con-name enp10s0 ipv4.method manual ipv4.addresses 100.64.0.3/24 ipv4.gateway 100.64.0.1  
+
+nmcli connection add type bridge ifname bridge2 con-name bridge2 ipv4.method disabled ipv6.method disabled 
+
+nmcli connection add type vxlan port-type bridge con-name vxlan-bridge2 ifname vxlan10 id 10 local 100.64.0.3 remote 100.66.0.2 controller bridge2
+
+nmcli connection modify vxlan-bridge2 destination-port 4789
+
+```
+
+If you want to further use the vxlan for VM traffic with virt-manager, add a bridge xml file:
+
+Save this as vxlan-bridge2.xml
+
+```
+<network>
+ <name>vxlan-bridge2</name>
+ <forward mode="bridge" />
+ <bridge name="bridge2" />
+</network>
+
+```
+Then run as root:
+
+```
+virsh net-define ~/vxlan-bridge2.xml
+
+virsh net-start vxlan-bridge2
+
+virsh net-autostart vxlan-bridge2
+```
+
+To verify vnet interfaces created run the following:
+```
+ip link show master vxlan-bridge2
+```
+
+For other documentation see: https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_managing_networking/assembly_using-a-vxlan-to-create-a-virtual-layer-2-domain-for-vms_configuring-and-managing-networking#proc_configuring-the-ethernet-interface-on-the-hosts_assembly_using-a-vxlan-to-create-a-virtual-layer-2-domain-for-vms
