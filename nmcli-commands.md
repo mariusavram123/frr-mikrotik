@@ -242,3 +242,26 @@ default via fe80:1234:1234:1122::1 dev dummy6 proto static metric 552 pref mediu
 ```
 As you can see the default route got added in the main routing table.
 
+Add a bridge interface in virt-manager in order to get bridged networking for the VMs:
+
+Create a file named bridge.xml with the following content:
+
+```
+<network>
+  <name>bridge0</name>
+  <forward mode="bridge"/>
+  <bridge name="bridge00"/>
+</network
+```
+
+Then define the network with virsh:
+
+```
+sudo virsh net-define ./bridge.xml
+
+sudo virsh net-start bridge0
+
+sudo virsh net-autostart bridge0
+```
+
+Documentation for libvirt networking: https://libvirt.org/formatnetwork.html
