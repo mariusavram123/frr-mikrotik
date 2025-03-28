@@ -107,6 +107,10 @@ nmcli connection modify bridge0 +ipv4.routes "192.168.121.0/24 10.74.7.3, 192.16
 - Route with source address:
 
 nmcli connection modify bridge0 +ipv4.routes "192.168.182.0/24 10.185.111.111 src=10.185.111.112"
+
+- Add a default route to a specific routing table
+
+mmcli connection modify enp10s0 ipv4.gateway 10.0.0.87 ipv4.route-table 165
 ```
 
 - Add a dummy interface and configure routes and policy based routing (from addresses):
