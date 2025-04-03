@@ -121,7 +121,7 @@ nmcli connection add type dummy ifname dummy0 con-name dummy0 ipv4.method manual
 nmcli connection up dummy0
 ```
 
-- Add a vrf interface and enslave it to table 150, then add a dummy interface, add routes for the respective interface:
+- Add a vrf interface and enslave it to table 155, then add a dummy interface, add routes for the respective interface:
 
 ```
 nmcli connection add type vrf ifname vrf1 con-name vrf1 table 155 ipv4.method disabled ipv6.method disabled 
@@ -269,3 +269,8 @@ sudo virsh net-autostart bridge0
 ```
 
 Documentation for libvirt networking: https://libvirt.org/formatnetwork.html
+
+
+- Tunnels (ipip, gre, gretap) configuration with nmcli:
+
+  ![Documentation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/configuring-ip-tunnels_configuring-and-managing-networking#configuring-a-gretap-tunnel-to-transfer-ethernet-frames-over-ipv4_configuring-ip-tunnels)
