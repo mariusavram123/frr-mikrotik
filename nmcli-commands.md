@@ -77,7 +77,9 @@ nmcli connection modify bridge0 bridge.stp no
     
     - xmit_hash_policy = what policy to use when load-balancing traffic between the ports of a bond
 
-Bond documentation: https://www.kernel.org/doc/Documentation/networking/bonding.txt
+- Bond documentation:
+
+[Bond documentation](https://www.kernel.org/doc/Documentation/networking/bonding.txt)
 
 ```
 nmcli connection add type bond ifname bond0 con-name bond0
@@ -200,7 +202,9 @@ To verify vnet interfaces created run the following:
 ip link show master vxlan-bridge2
 ```
 
-For other documentation see: https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_managing_networking/assembly_using-a-vxlan-to-create-a-virtual-layer-2-domain-for-vms_configuring-and-managing-networking#proc_configuring-the-ethernet-interface-on-the-hosts_assembly_using-a-vxlan-to-create-a-virtual-layer-2-domain-for-vms
+For other documentation see:
+
+[Vxlan configuration](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_managing_networking/assembly_using-a-vxlan-to-create-a-virtual-layer-2-domain-for-vms_configuring-and-managing-networking#proc_configuring-the-ethernet-interface-on-the-hosts_assembly_using-a-vxlan-to-create-a-virtual-layer-2-domain-for-vms)
 
 
 - Add an IPv6 address to a interface with nmcli:
