@@ -38,7 +38,9 @@ curl -O https://rpm.frrouting.org/repo/$FRRVER-repo-1-0.el9.noarch.rpm
 dnf install -y ./$FRRVER*
 
 # install FRR
-dnf install -y frr frr-pythontools epel-release kernel-modules-extra vim git-all
+dnf install -y frr frr-pythontools epel-release kernel-modules-extra vim git-all iptables-services
+
+dnf install -y libreswan openvpn easy-rsa
 
 sed -i '$anet.ipv4.ip_forward = 1' /etc/sysctl.conf
 
@@ -47,5 +49,7 @@ cat /etc/sysctl.conf
 sysctl -p
 
 systemctl enable --now frr
+
+systemctl enable --now iptables
 
 echo "Selinux have been disabled. Please reboot the system to get the benefits."
