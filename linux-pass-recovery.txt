@@ -1,0 +1,11 @@
+grub menu - press e to edit
+
+rw init=/sysroot/bin/sh - grub config - linux line (replace ro parameter)
+
+chroot /sysroot
+
+passwd root
+
+exit
+
+reboot
