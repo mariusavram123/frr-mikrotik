@@ -274,6 +274,24 @@ sudo virsh net-autostart bridge0
 
 Documentation for libvirt networking: https://libvirt.org/formatnetwork.html
 
+- GRE tunnel configuration:
+
+```
+nmcli connection add type ip-tunnel ip-tunnel.mode gre con-name gre1 ifname gre1 remote 198.51.100.5 local 203.0.113.10
+
+nmcli connection modify gre1 ipv4.method manual ipv4.addresses '10.0.1.1/30'
+
+nmcli connection modify gre1 +ipv4.routes "172.16.0.0/24 10.0.1.2"
+
+nmcli connection up gre1
+```
+
+- Enable IP forwarding:
+
+```
+echo "net.ipv4.ip_forward=1" > /etc/sysctl.d/95-IPv4-forwarding.conf
+sysctl -p /etc/sysctl.d/95-IPv4-forwarding.conf
+```
 
 - Tunnels (ipip, gre, gretap) configuration with nmcli:
 
