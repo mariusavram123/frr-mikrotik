@@ -1,0 +1,66 @@
+id: Debian13
+boot:
+  timeout: 60
+  uses_regex: false
+sim:
+  linux_native:
+    libvirt_domain_driver: kvm
+    driver: server
+    disk_driver: sata
+    ram: 2048
+    cpus: 2
+    cpu_limit: 100
+    nic_driver: virtio
+    data_volume: 20
+    boot_disk_size: 4
+    video:
+      memory: 128
+      model: vga
+  usage_estimations:
+    cpus: 1
+    ram: 1024
+    disk: 2048
+general:
+  nature: server
+  description: Debian 13 Cloud init VM
+  read_only: false
+configuration:
+  generator:
+    driver: server
+device:
+  interfaces:
+    serial_ports: 4
+    default_console: 0
+    physical:
+      - ens3
+      - ens4
+      - ens5
+      - ens6
+      - ens7
+      - ens8
+      - ens9
+      - ens10
+    has_loopback_zero: true
+    min_count: 0
+    default_count: 4
+    loopback:
+      - lo
+ui:
+  label_prefix: debian-
+  icon: host
+  label: Debian13
+  visible: true
+inherited:
+  image:
+    ram: true
+    cpus: true
+    data_volume: true
+    boot_disk_size: true
+    cpu_limit: true
+  node:
+    ram: true
+    cpus: true
+    data_volume: true
+    boot_disk_size: true
+    cpu_limit: true
+schema_version: 0.0.1

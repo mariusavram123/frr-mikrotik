@@ -1,0 +1,12 @@
+id: Debian13
+node_definition_id: Debian13
+description: Debian 13 Cloud VM
+label: Debian13
+disk_image: debian-13-generic-amd64-20250911-2232.qcow2
+read_only: false
+ram: 2048
+cpus: 2
+cpu_limit: 100
+data_volume: 20
+boot_disk_size: 4
+schema_version: 0.0.1
