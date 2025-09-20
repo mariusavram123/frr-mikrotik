@@ -1,0 +1,66 @@
+id: Alma9
+boot:
+  timeout: 60
+  uses_regex: false
+sim:
+  linux_native:
+    libvirt_domain_driver: kvm
+    driver: server
+    disk_driver: sata
+    ram: 2048
+    cpus: 2
+    cpu_limit: 100
+    nic_driver: virtio
+    data_volume: 10
+    boot_disk_size: 10
+    video:
+      memory: 128
+      model: vga
+  usage_estimations:
+    cpus: 1
+    ram: 1024
+    disk: 10000
+general:
+  nature: server
+  description: Almalinux9 VM using frr with full daemons started
+  read_only: false
+configuration:
+  generator:
+    driver: null
+device:
+  interfaces:
+    serial_ports: 4
+    default_console: 0
+    physical:
+      - eth0
+      - eth1
+      - eth2
+      - eth3
+      - eth4
+      - eth5
+      - eth6
+      - eth7
+    has_loopback_zero: true
+    min_count: 0
+    default_count: 5
+    loopback:
+      - lo
+ui:
+  label_prefix: alma9-
+  icon: host
+  label: ALMA9
+  visible: true
+inherited:
+  image:
+    ram: true
+    cpus: true
+    data_volume: true
+    boot_disk_size: true
+    cpu_limit: true
+  node:
+    ram: true
+    cpus: true
+    data_volume: true
+    boot_disk_size: true
+    cpu_limit: true
+schema_version: 0.0.1

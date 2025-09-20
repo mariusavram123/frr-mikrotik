@@ -1,0 +1,12 @@
+id: Alma9-frr
+node_definition_id: Alma9
+description: Almalinux 9 using frr with full daemons started
+label: ALMA9
+disk_image: AlmaLinux-9-GenericCloud-latest.x86_64.qcow2
+read_only: false
+ram: 1024
+cpus: 1
+cpu_limit: 100
+data_volume: 20
+boot_disk_size: 10
+schema_version: 0.0.1

@@ -16,4 +16,6 @@ sudo dnf install guestfs-tools
 virt-customize --add "debian-13-generic-amd64-20250911-2232.qcow2" --root-password password:<mypass> --hostname "debian13" --firstboot-command 'ssh-keygen -A && systemctl restart sshd'
 ```
 
+- Upload the qcow2 file in cml - from image definitions
+
 - Import the two yaml files in CML (node definition first and image definition second)
